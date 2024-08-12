@@ -4,7 +4,7 @@ var logger = require('morgan');
 var cors = require('cors')
 
 var indexRouter = require('./routes/index');
-const mongodb = require('./db/mango')
+const mongodb = require('./db/mongo');
 
 mongodb.initClientDbConnection();
 
