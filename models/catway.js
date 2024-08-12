@@ -16,7 +16,8 @@ const catwaySchema = mongoose.Schema(
         }, 
 
         catwayState: {
-            type: String
+            type: String,
+            trim: true
         }
     }
 );
