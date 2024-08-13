@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-const service = require('../services/users');
+const service = require('../services/catways');
+
+router.get('/', service.getAll);
 
 router.get('/:id', service.getById);
 

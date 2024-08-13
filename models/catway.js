@@ -12,7 +12,8 @@ const catwaySchema = mongoose.Schema(
             require: true,
             lowercase: true,
             trim: true,
-            enum: [ ["long", "short"], "Most be long or short" ]
+            enum: ['long', 'short'],
+            message: "Must be long or short."
         }, 
 
         catwayState: {
