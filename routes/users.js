@@ -11,6 +11,6 @@ router.patch('/:id', service.update);
 
 router.delete('/:id', service.delete);
 
-router.post('/authenticate', service.authenticate)
+router.post('/authenticate', service.authenticate);
 
 module.exports = router;

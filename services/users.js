@@ -111,6 +111,8 @@ exports.authenticate = async (req, res, next) => {
     try {
         let user = await User.findOne({ email: email }, '-__v -createdAt -updateAt');
 
+        let hashedPass = bcrypt.hashSync(password, 10);
+
         if (user) {
             bcrypt.compare(password, user.password, function(err, response) {
                 if (err) {
@@ -123,12 +125,13 @@ exports.authenticate = async (req, res, next) => {
                     const token = jwt.sign({
                         user: user
                     },
-                    SECRET_KEY,
+                    process.env.SECRET_KEY,
                     {
                         expiresIn: expireIn
                     });
 
                     res.header('Authorization', 'Bearer ' + token);
+                    return res.status(200).json('authenticate_succeed');
                 }
 
                 return res.status(403).json('wrong_credentials');
