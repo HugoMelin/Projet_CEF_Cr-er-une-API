@@ -3,14 +3,16 @@ var router = express.Router();
 
 const service = require('../services/booking');
 
-router.get('/:id/reservations', service.getAll);
+const private = require('../middlewares/private');
 
-router.get('/:id/reservations/:idReservation', service.getById);
+router.get('/:id/reservations', private.checkJWT, service.getAll);
 
-router.post('/:id/reservations', service.add);
+router.get('/:id/reservations/:idReservation', private.checkJWT, service.getById);
 
-router.patch('/:id/reservations/:idReservation', service.update);
+router.post('/:id/reservations', private.checkJWT, service.add);
 
-router.delete('/:id/reservations/:idReservation', service.delete);
+router.patch('/:id/reservations/:idReservation', private.checkJWT, service.update);
+
+router.delete('/:id/reservations/:idReservation', private.checkJWT, service.delete);
 
 module.exports = router;
