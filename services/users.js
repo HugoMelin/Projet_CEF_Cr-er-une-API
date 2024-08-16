@@ -130,8 +130,14 @@ exports.authenticate = async (req, res, next) => {
                         expiresIn: expireIn
                     });
 
+                    res.cookie('token', token, {
+                        httpOnly: true,
+                        maxAge: expireIn
+                    });
+
                     res.header('Authorization', 'Bearer ' + token);
-                    return res.status(200).json('authenticate_succeed');
+                    //res.status(200).json('authenticate_succeed');
+                    return res.redirect('/tableau-de-bord');
                 }
 
                 return res.status(403).json('wrong_credentials');
