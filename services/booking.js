@@ -4,10 +4,12 @@ const { body, validationResult } = require('express-validator')
 
 exports.getAll = async (req, res, next) => {
     try {
+        const id = req.params.id
         let booking = await Booking.find({});
+        let catway = await Catway.findById(id);
         
         if (booking) {
-            return res.status(200).json(booking);
+            return res.render('booking', { title: 'Réservations', booking: booking, catway: catway });
         }
     } catch (e) {
         return res.status(501).json(e);
@@ -22,7 +24,7 @@ exports.getById = async (req, res, next) => {
         let catway = await Catway.findById(id);
 
         if (catway) {
-            let booking = await Booking.findOne({"idReservation": idReservation})
+            let booking = await Booking.findOne({"bookingId": idReservation})
                 if (booking) {
                     return res.status(200).json(booking);
                 }
@@ -37,6 +39,7 @@ exports.getById = async (req, res, next) => {
 
 exports.add = [
     // Définition des règles de validation
+        body('bookingId').isNumeric().withMessage("L'id de réservation doit être un nombre."),
         body('clientName').trim().isLength({ min: 3 }).withMessage('Le nom du client doit contenir au moins 3 caractères'),
         body('boatName').trim().isLength({ min: 3 }).withMessage('Le nom du bâteau doit contenir au moins 3 caractères'),
         body('checkIn').isDate().withMessage('checkIn doit être une date'),
@@ -56,6 +59,7 @@ exports.add = [
 
         if (catway) {
             const temp = ({
+                bookingId: req.body.bookingId,
                 catwayNumber: catway.catwayNumber,
                 clientName: req.body.clientName,
                 boatName: req.body.boatName,

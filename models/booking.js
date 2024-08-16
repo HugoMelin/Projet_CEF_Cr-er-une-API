@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 const bookingSchema = mongoose.Schema(
     {
+        bookingId: {
+            type: Number,
+            require: true,
+            unique: [true, "L'identifiant de la réservation doit être unique"]
+        },
+
         catwayNumber: {
             type: Number,
             require: true
