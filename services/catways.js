@@ -6,7 +6,7 @@ exports.getAll = async (req, res, next) => {
         let catways = await Catway.find({});
         
         if (catways) {
-            return res.status(200).json(catways);
+            return res.render('catways', { title: 'Embarquadaires', catways: catways });
         }
     } catch (e) {
         return res.status(501).json(e);
