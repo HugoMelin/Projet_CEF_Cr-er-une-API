@@ -20,7 +20,7 @@ exports.getById = async (req, res, next) => {
         let catway = await Catway.findById(id);
 
         if (catway) {
-            return res.status(200).json(catway);
+            return res.render('catwayInfo', { title: "Info sur l'embarquadaire", catway: catway});
         }
 
         return res.status(404).json('catway-not-found');
