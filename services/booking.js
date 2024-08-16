@@ -26,7 +26,8 @@ exports.getById = async (req, res, next) => {
         if (catway) {
             let booking = await Booking.findOne({"bookingId": idReservation})
                 if (booking) {
-                    return res.status(200).json(booking);
+                    //res.status(200).json(booking);
+                    return res.render('bookingInfo', { title: 'Information réservation', booking: booking, catway: catway })
                 }
             return res.status(404).json("Aucune réservation trouvé");
         }
@@ -80,6 +81,7 @@ exports.add = [
 
 exports.update = [
     // Définition des règles de validation
+    body('bookingId').optional().isNumeric().withMessage("L'id de réservation doit être un nombre."),
     body('clientName').trim().optional().isLength({ min: 3 }).withMessage('Le nom du client doit contenir au moins 3 caractères'),
     body('boatName').trim().optional().isLength({ min: 3 }).withMessage('Le nom du bâteau doit contenir au moins 3 caractères'),
     body('checkIn').optional().isDate().withMessage('checkIn doit être une date'),
@@ -98,11 +100,12 @@ exports.update = [
 
         if (catway) {
             const temp = ({
+                bookingId: req.body.bookingId,
                 catwayNumber: catway.catwayNumber,
-                    clientName: req.body.clientName,
-                    boatName: req.body.boatName,
-                    checkIn: req.body.checkIn,
-                    checkOut: req.body.checkOut
+                clientName: req.body.clientName,
+                boatName: req.body.boatName,
+                checkIn: req.body.checkIn,
+                checkOut: req.body.checkOut
             })
     
             const idReservation = req.params.idReservation;
