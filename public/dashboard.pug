@@ -15,3 +15,21 @@ body
             label(for="password")  Password 
             input(type="password" name="password" required) 
             button(type="submit" style={'margin-left': 1+'rem'}) Créer utilisateur
+
+    form(action="/tableau-de-bord/updateUser" method="POST" name="updatedUser") 
+        fieldset 
+            legend Modifier un utilisateur
+            label(for="user")  Utilisateur à modifier 
+            select(name="user" id="user-select") 
+                each user in users
+                    option(value=user._id)= user.name 
+            button(type="submit" style={'margin-left': 1+'rem'}) Modifier l'utilisateur
+
+    form(action="/tableau-de-bord/deleteUser" method="POST" name="updatedUser") 
+        fieldset 
+            legend Modifier un utilisateur
+            label(for="user")  Utilisateur à modifier 
+            select(name="user" id="user-select") 
+                each user in users
+                    option(value=user._id)= user.name 
+            button(type="submit" style={'margin-left': 1+'rem'}) Supprimer l'utilisateur
