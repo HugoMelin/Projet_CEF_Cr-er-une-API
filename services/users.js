@@ -42,7 +42,8 @@ exports.add = [
         try {
             let user = await User.create(temp);
 
-            return res.status(201).json(user);
+            console.log("User created " + user.name);
+            return res.redirect('/tableau-de-bord');
         } catch (e) {
             return res.status(501).json(e);
         }

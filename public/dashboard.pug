@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title= title
+body 
+    h1 Russel Harbor Dashboard 
+
+    form(action="/users" method="POST" name="addUser") 
+        fieldset 
+            legend Créer un utilisateur
+            label(for="name") Name 
+            input(type="text" name="name" required) 
+            label(for="email")  Email 
+            input(type="email" name="email" required)  
+            label(for="password")  Password 
+            input(type="password" name="password" required) 
+            button(type="submit" style={'margin-left': 1+'rem'}) Créer utilisateur
