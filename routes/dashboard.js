@@ -9,10 +9,8 @@ router.get('/', private.checkJWT, service.dashboard);
 
 router.post('/updateUser', private.checkJWT, service.updateUser);
 
-router.post('/updateUser/:id', private.checkJWT, service.update);
+router.post('/updateUser/:id', private.checkJWT, service.updateUserById);
 
-router.post('/deleteUser', private.checkJWT, service.deleteUser);
-
-router.post('/deleteUser/:id', private.checkJWT, service.delete);
+router.get('/deleteUser/', private.checkJWT, service.deleteUser);
 
 module.exports = router;

@@ -29,7 +29,7 @@ exports.updateUser = async (req, res, next) => {
     }
 };
 
-exports.update = async (req, res, next) => {
+exports.updateUserById = async (req, res, next) => {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
@@ -53,7 +53,7 @@ exports.update = async (req, res, next) => {
       }
   
       // Patch request avec token et gestion de l'erreur
-      fetch(`http://${process.env.API_URL}:3000/users/${id}`, {
+      fetch(`http://${process.env.API_URL}:${process.env.PORT}/users/${id}`, {
         method: "PATCH",
         headers: {
           'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
@@ -83,49 +83,38 @@ exports.update = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
     try {
-        const userId = req.body.user;
+        const userId = req.query.user;
+        console.log(userId)
 
-        return res.redirect(`/tableau-de-bord/deleteUser/${userId}`);
-    } catch (error) {
-        return res.status(500).json(error);
-    }
-}
+        const token = req.cookies.token;
 
+        if (!token) {
+          return res.status(401).json({ message: 'Unauthorized: Missing authorization token' });
+        };
 
-exports.delete = async (req, res, next) => {
-        try {
-          const id = req.params.id;
-      
-          const token = req.cookies.token;
-
-          // Check si présence du token
-          if (!token) {
-            return res.status(401).json({ message: 'Unauthorized: Missing authorization token' });
+        // Delete request avec token et gestion de l'erreur
+        fetch(`http://${process.env.API_URL}:${process.env.PORT}/users/${userId}`, {
+          method: "DELETE",
+          headers: {
+            'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
           }
-      
-          // Delete request avec token et gestion de l'erreur
-          fetch(`http://${process.env.API_URL}:3000/users/${id}`, {
-            method: "DELETE",
-            headers: {
-              'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
+        })
+          .then(response => {
+            if (response.ok) {
+              //console.log("Utilisateur supprimé ");
+              return res.redirect('/tableau-de-bord');
+            } else {
+              return response.json().then(errorData => {
+                return res.status(response.status).json(errorData);
+              });
             }
           })
-            .then(response => {
-              if (response.ok) {
-                //console.log("Utilisateur supprimé ");
-                return res.redirect('/tableau-de-bord');
-              } else {
-                return response.json().then(errorData => {
-                  return res.status(response.status).json(errorData);
-                });
-              }
-            })
-            .catch(error => {
-              console.error('Error deleting user:', error);
-              return res.status(500).json({ message: 'Internal Server Error' });
-            });
-        } catch (error) {
-          console.error('Unexpected error:', error);
-          return res.status(500).json({ message: 'Internal Server Error' });
-        }
-      };
+          .catch(error => {
+            console.error('Error deleting user:', error);
+            return res.status(500).json({ message: 'Internal Server Error' });
+          });
+      } catch (error) {
+        console.error('Unexpected error:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
+    };

@@ -25,10 +25,10 @@ body
                     option(value=user._id)= user.name 
             button(type="submit" style={'margin-left': 1+'rem'}) Modifier l'utilisateur
 
-    form(action="/tableau-de-bord/deleteUser" method="POST" name="updatedUser") 
+    form(action="/tableau-de-bord/deleteUser" method="GET" name="updatedUser") 
         fieldset 
-            legend Modifier un utilisateur
-            label(for="user")  Utilisateur à modifier 
+            legend Supprimer un utilisateur
+            label(for="user")  Utilisateur à supprimer 
             select(name="user" id="user-select") 
                 each user in users
                     option(value=user._id)= user.name 
