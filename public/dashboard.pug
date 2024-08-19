@@ -31,5 +31,38 @@ body
             label(for="user")  Utilisateur à supprimer 
             select(name="user" id="user-select") 
                 each user in users
-                    option(value=user._id)= user.name 
+                    option(value=user._id)= user.name
             button(type="submit" style={'margin-left': 1+'rem'}) Supprimer l'utilisateur
+
+    form(action="/catways" method="POST" name="addCatway") 
+        fieldset 
+            legend Créer un embarquadaire
+            label(for="catwayNumber") Numéro de l'embarquadaire 
+            input(type="text" name="catwayNumber" required) 
+            label(for="type")  Type de l'embarquadaire 
+            input(type="text" name="type" required)  
+            label(for="catwayState")  Description de l'embarquadaire 
+            input(type="text" name="catwayState") 
+            button(type="submit" style={'margin-left': 1+'rem'}) Créer un embarquadaire
+
+    
+    fieldset 
+        legend Les embarquadaires 
+        button 
+            a(href="/catways") Voir tous les embarquadaires 
+        table 
+            tr 
+                th Numéro d'embarquadaire 
+                th Action 
+            each catway in catways 
+                tr
+                    td= catway.catwayNumber
+                    td 
+                        button
+                            a(href=`/catways/${catway._id}`) En savoir plus
+                    td
+                        button
+                            a(href=`/tableau-de-bord/updateCatway/${catway._id}`)  Modifier l'embarquadaire
+                    td
+                        button
+                            a(href=`/tableau-de-bord/deleteCatway/${catway._id}`)  Supprimer l'embarquadaire

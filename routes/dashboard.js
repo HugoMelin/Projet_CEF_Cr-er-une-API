@@ -13,4 +13,10 @@ router.post('/updateUser/:id', private.checkJWT, service.updateUserById);
 
 router.get('/deleteUser/', private.checkJWT, service.deleteUser);
 
+router.get('/updateCatway/:id', private.checkJWT, service.updateCatway);
+
+router.post('/updateCatway/:id', private.checkJWT, service.updateCatwayById);
+
+router.get('/deleteCatway/:id', private.checkJWT, service.deleteCatway)
+
 module.exports = router;
