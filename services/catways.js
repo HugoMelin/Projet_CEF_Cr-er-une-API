@@ -1,6 +1,14 @@
 const Catway = require('../models/catway');
 const { body, validationResult } = require('express-validator')
 
+/**
+ * Récupère tous les catways.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP. Fait le rendu de la page Embarquadaires, qui affiche tous les catways.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.getAll = async (req, res, next) => {
     try {
         let catways = await Catway.find({});
@@ -13,6 +21,14 @@ exports.getAll = async (req, res, next) => {
     }
 }
 
+/**
+ * Récupère un catway spécifique par son ID.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'id du catways recherché dans l'URL de la requette.
+ * @param {Object} res - L'objet de réponse HTTP. Fait le rendu de la page d'info sur le catway.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.getById = async (req, res, next) => {
     const id = req.params.id 
 
@@ -29,6 +45,14 @@ exports.getById = async (req, res, next) => {
     }
 }
 
+/**
+ * Ajoute un nouveau catway.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère dans le corps de la requette les variable : catwayNumber; type; catwayState.
+ * @param {Object} res - L'objet de réponse HTTP. Renvoie les codes nécessaire de succés ou d'échec de le requette. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.add = [
     // Définition des règles de validation
         body('catwayNumber').isInt().withMessage('Le numéro du catwyas doit être un nombre'),
@@ -59,7 +83,14 @@ exports.add = [
     }
 ];
 
-
+/**
+ * Met à jour un catway existant.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère dans le corps de la requette les variable : catwayNumber; type; catwayState. L'id du catway est lui fourni dans l'URL de la requette.
+ * @param {Object} res - L'objet de réponse HTTP. Renvoie les codes nécessaire de succés ou d'échec de le requette. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.update = [
     // Définition des règles de validation
     body('catwayNumber').optional().isInt().withMessage('Le numéro du catwyas doit être un nombre'),
@@ -103,6 +134,14 @@ exports.update = [
     }
 ];
 
+/**
+ * Supprime un catway.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Recupère l'id du catway dans l'URL de la requette. 
+ * @param {Object} res - L'objet de réponse HTTP. Renvoie les codes nécessaire de succés ou d'échec de le requette. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.delete = async (req, res, next) => {
     const id = req.params.id 
 
