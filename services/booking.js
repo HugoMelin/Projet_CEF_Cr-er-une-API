@@ -1,6 +1,6 @@
 const Booking = require('../models/booking');
-const Catway = require('../models/catway')
-const { body, validationResult } = require('express-validator')
+const Catway = require('../models/catway');
+const { body, validationResult } = require('express-validator');
 
 /**
  * Récupère toutes les réservations et un catway spécifique.
@@ -187,4 +187,4 @@ exports.delete = async (req, res, next) => {
             return res.status(501).json(e)
         }
     }
-}
+};
