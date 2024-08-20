@@ -50,9 +50,9 @@ exports.add = [
         })
 
         try {
-            let catway = await Catway.create(temp);
+            await Catway.create(temp);
 
-            return res.status(201).json(catway);
+            return res.redirect('/tableau-de-bord');
         } catch (e) {
             return res.status(501).json(e);
         }
