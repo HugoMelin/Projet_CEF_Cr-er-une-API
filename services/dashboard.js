@@ -5,6 +5,14 @@ const Catway = require('../models/catway');
 const Booking = require('../models/booking');
 const { render } = require('pug');
 
+/**
+ * Affiche le tableau de bord avec les utilisateurs, catways et réservations.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP. Fait le rendu de la page dashboard en fournissant les différentes données nécessaire : title; users; catways; booking; catwayId.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.dashboard = async (req, res, next) => {
     try {
         const users = await User.find({});
@@ -23,6 +31,14 @@ exports.dashboard = async (req, res, next) => {
     }
 }
 
+/**
+ * Met à jour un utilisateur.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'id de l'utilisateur dans le corp de la requette.
+ * @param {Object} res - L'objet de réponse HTTP. Fait le rendu de la page uptadeUser, qui affiche un formulaire pour renseigner les informations à mdoifier. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.updateUser = async (req, res, next) => {
     try {
         const userId = req.body.user;
@@ -37,6 +53,14 @@ exports.updateUser = async (req, res, next) => {
     }
 };
 
+/**
+ * Met à jour un utilisateur par ID.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère les données du formulaire de la page updateUser.
+ * @param {Object} res - L'objet de réponse HTTP. Fait appelle à la requette du modification d'un utilisateur. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.updateUserById = async (req, res, next) => {
         const errors = validationResult(req);
 
@@ -89,6 +113,14 @@ exports.updateUserById = async (req, res, next) => {
     }
   };
 
+  /**
+ * Supprime un utilisateur.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'id de l'utilisateur à supprimer dans l'URL.
+ * @param {Object} res - L'objet de réponse HTTP. Fait appelle à la requette de suppression d'un utilisateur.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.deleteUser = async (req, res, next) => {
     try {
         const userId = req.query.user;
@@ -124,8 +156,16 @@ exports.deleteUser = async (req, res, next) => {
         console.error('Unexpected error:', error);
         return res.status(500).json({ message: 'Internal Server Error' });
       }
-    };
+};
 
+/**
+ * Met à jour un catway.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'ID du catways dans l'URL
+ * @param {Object} res - L'objet de réponse HTTP. Fait le rendu de la page updateCatway qui affiche un formulaire. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.updateCatway = async (req, res, next) => {
   try {
       const catwayId = req.params.id;
@@ -140,6 +180,14 @@ exports.updateCatway = async (req, res, next) => {
   }
 };
 
+/**
+ * Met à jour la description d'un catway par ID.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère les informations du formulaire de la page updateCatway.
+ * @param {Object} res - L'objet de réponse HTTP. Fait appel à la fonction de modificaiton d'un catway.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.updateCatwayById = async (req, res, next) => {
   const errors = validationResult(req);
 
@@ -190,6 +238,14 @@ exports.updateCatwayById = async (req, res, next) => {
   }
 };
 
+/**
+ * Supprime un catway.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'ID du catway dans l'URL de la page. 
+ * @param {Object} res - L'objet de réponse HTTP. Fait appel à la requette de suppression d'un catway.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.deleteCatway = async (req, res, next) => {
   try {
       const id = req.params.id;
@@ -225,6 +281,14 @@ exports.deleteCatway = async (req, res, next) => {
     }
   };
 
+/**
+ * Ajoute une réservation.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère les informations du formulaire qui permet de rajouter une réservation sur la page dashboard.
+ * @param {Object} res - L'objet de réponse HTTP. Fait appel à la requette d'ajout d'une réservation. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
   exports.addBooking = async (req, res, next) => {
     try {
       const catway = JSON.parse(req.body.catwayNumber);
@@ -271,8 +335,16 @@ exports.deleteCatway = async (req, res, next) => {
       console.error('Unexpected error:', error);
       return res.status(500).json({ message: 'Internal Server Error' });
     }
-  }
+  };
 
+/**
+ * Récupère les informations d'une réservation.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'ID de la réservation dans l'URL.
+ * @param {Object} res - L'objet de réponse HTTP. Redirige vers la page qui présente les informations d'une réservation.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.getBookingInfo = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -288,6 +360,14 @@ exports.getBookingInfo = async (req, res, next) => {
   }
 };
 
+/**
+ * Supprime une réservation.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'id de la réservaition dans l'URL de la page.
+ * @param {Object} res - L'objet de réponse HTTP. Fait appel à la requette de suppression d'une réservation. 
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.deleteBooking = async (req, res, next) => {
   try {
       const id = req.params.id;
