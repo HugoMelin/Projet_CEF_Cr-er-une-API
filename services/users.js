@@ -3,6 +3,14 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 
+/**
+ * Récupère un utilisateur par son ID.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'ID dans l'URL.
+ * @param {Object} res - L'objet de réponse HTTP. Renvoie les informations sur l'utilisateur.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.getById = async (req, res, next) => {
     const id = req.params.id 
 
@@ -19,6 +27,14 @@ exports.getById = async (req, res, next) => {
     }
 }
 
+/**
+ * Ajoute un nouvel utilisateur.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère les informations nécessaire (name; email; password) dans le corps de la requette.
+ * @param {Object} res - L'objet de réponse HTTP. Renvoie les codes de succés ou d'échec de la requette.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.add = [
     // Définition des règles de validation
         body('name').isLength({ min: 3 }).withMessage('Le nom doit contenir au moins 3 caractères'),
@@ -50,7 +66,14 @@ exports.add = [
     }
 ];
 
-
+/**
+ * Met à jour un utilisateur existant.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère les informations nécessaire (name; email; password) dans le corps de la requette.
+ * @param {Object} res - L'objet de réponse HTTP. Renvoie les codes de succés ou d'échec de la requette.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.update = [
     // Définition des règles de validation
     body('name').optional().isLength({ min: 3 }).withMessage('Le nom doit contenir au moins 3 caractères'),
@@ -94,6 +117,14 @@ exports.update = [
     }
 ];
 
+/**
+ * Supprime un utilisateur.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'ID de l'utilisateur à supprimer dans l'URL de la requette.
+ * @param {Object} res - L'objet de réponse HTTP. Renvoie les codes de succés ou d'échec de la requette.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.delete = async (req, res, next) => {
     const id = req.params.id 
 
@@ -106,6 +137,14 @@ exports.delete = async (req, res, next) => {
     }
 }; 
 
+/**
+ * Authentifie un utilisateur lors de sa connection.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP. Récupère l'email et le password de l'utilisateur dans le coprs de la requette.
+ * @param {Object} res - L'objet de réponse HTTP. Redirige vers le tableau de bord si le test d'authentification est valide.
+ * @param {Function} next - La fonction middleware suivante.
+ */
 exports.authenticate = async (req, res, next) => {
     const { email, password } = req.body;
 
