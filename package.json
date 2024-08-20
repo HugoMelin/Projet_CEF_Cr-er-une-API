@@ -6,7 +6,8 @@
     "start": "env-cmd -f ./env/.env nodemon ./bin/www",
     "dev": "env-cmd -f ./env/.env.dev nodemon ./bin/www",
     "prod": "env-cmd -f ./env/.env.prod nodemon ./bin/www",
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json",
+    "test": "mocha"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -21,8 +22,11 @@
     "pug": "^3.0.3"
   },
   "devDependencies": {
+    "chai": "^4.5.0",
     "env-cmd": "^10.1.0",
     "jsdoc": "^4.0.3",
-    "nodemon": "^3.1.4"
+    "mocha": "^10.7.3",
+    "nodemon": "^3.1.4",
+    "sinon": "^18.0.0"
   }
 }
