@@ -1,16 +1,22 @@
 const { body, validationResult } = require('express-validator');
 
 const User = require('../models/user');
-const Catway = require('../models/catway')
+const Catway = require('../models/catway');
+const Booking = require('../models/booking');
+const { render } = require('pug');
 
 exports.dashboard = async (req, res, next) => {
     try {
         const users = await User.find({});
         const catways = await Catway.find({});
+        const booking = await Booking.find({});
+        const catwayId = await Catway.findOne({"catwayNumber": 1});
         return res.render('dashboard', { 
             title: 'Tableau de bord', 
             users: users,
-            catways: catways
+            catways: catways,
+            booking: booking,
+            catwayId: catwayId._id
         })
     } catch (error) {
         return res.status(500).json(error);
@@ -187,7 +193,6 @@ exports.updateCatwayById = async (req, res, next) => {
 exports.deleteCatway = async (req, res, next) => {
   try {
       const id = req.params.id;
-      console.log(id)
       const token = req.cookies.token;
 
       if (!token) {
@@ -219,3 +224,104 @@ exports.deleteCatway = async (req, res, next) => {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
   };
+
+  exports.addBooking = async (req, res, next) => {
+    try {
+      const catway = JSON.parse(req.body.catwayNumber);
+
+      const token = req.cookies.token;
+
+      if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: Missing authorization token' });
+      };
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      myHeaders.append("Authorization", token);
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("bookingId", req.body.bookingId);
+      urlencoded.append("clientName", req.body.clientName);
+      urlencoded.append("boatName", req.body.boatName);
+      urlencoded.append("checkIn", req.body.checkIn);
+      urlencoded.append("checkOut", req.body.checkOut);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded
+      };
+
+      await fetch(`http://${process.env.API_URL}:${process.env.PORT}/catways/${catway._id}/reservations`, 
+        requestOptions)
+        .then(response => {
+          if (response.ok) {
+            return res.redirect('/tableau-de-bord');
+          } else {
+            return response.json().then(errorData => {
+              return res.status(response.status).json(errorData);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting catway:', error);
+          return res.status(500).json({ message: 'Internal Server Error' });
+        });
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
+
+exports.getBookingInfo = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    const book = await Booking.findById(id);
+
+    const catway = await Catway.findOne({catwayNumber: book.catwayNumber})
+
+    return res.redirect(`/catways/${catway._id}/reservations/${book._id}`)
+  } catch (error) {
+    console.error('Unexpected error:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.deleteBooking = async (req, res, next) => {
+  try {
+      const id = req.params.id;
+      const token = req.cookies.token;
+
+      const book = await Booking.findById(id);
+      const catway = await Catway.findOne({"catwayNumber": book.catwayNumber});
+
+      if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: Missing authorization token' });
+      };
+
+      // Delete request avec token et gestion de l'erreur
+      fetch(`http://${process.env.API_URL}:${process.env.PORT}/catways/${catway._id}/reservations/${id}`, {
+        method: "DELETE",
+        headers: {
+          'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            return res.redirect('/tableau-de-bord');
+          } else {
+            return response.json().then(errorData => {
+              return res.status(response.status).json(errorData);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting catway:', error);
+          return res.status(500).json({ message: 'Internal Server Error' });
+        });
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};

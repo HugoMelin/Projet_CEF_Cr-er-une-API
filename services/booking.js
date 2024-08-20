@@ -24,7 +24,7 @@ exports.getById = async (req, res, next) => {
         let catway = await Catway.findById(id);
 
         if (catway) {
-            let booking = await Booking.findOne({"bookingId": idReservation})
+            let booking = await Booking.findById(idReservation)
                 if (booking) {
                     //res.status(200).json(booking);
                     return res.render('bookingInfo', { title: 'Information réservation', booking: booking, catway: catway })
@@ -111,7 +111,7 @@ exports.update = [
             const idReservation = req.params.idReservation;
     
             try {
-                let booking = await Booking.findOne({_id : idReservation});
+                let booking = await Booking.findById(idReservation);
     
                 if (booking) {
                     Object.keys(temp).forEach((key) => {

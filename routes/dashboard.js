@@ -17,6 +17,12 @@ router.get('/updateCatway/:id', private.checkJWT, service.updateCatway);
 
 router.post('/updateCatway/:id', private.checkJWT, service.updateCatwayById);
 
-router.get('/deleteCatway/:id', private.checkJWT, service.deleteCatway)
+router.get('/deleteCatway/:id', private.checkJWT, service.deleteCatway);
+
+router.post('/addBooking', private.checkJWT, service.addBooking);
+
+router.get('/getBookingInfo/:id', private.checkJWT, service.getBookingInfo);
+
+router.get('/deleteBooking/:id', private.checkJWT, service.deleteBooking);
 
 module.exports = router;
