@@ -18,7 +18,7 @@ exports.dashboard = async (req, res, next) => {
         const users = await User.find({});
         const catways = await Catway.find({});
         const booking = await Booking.find({});
-        const catwayId = await Catway.findOne({"catwayNumber": 1});
+        const catwayId = await Catway.findOne({});
         return res.render('dashboard', { 
             title: 'Tableau de bord', 
             users: users,
