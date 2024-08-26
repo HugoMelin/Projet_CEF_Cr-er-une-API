@@ -85,7 +85,7 @@ exports.updateUserById = async (req, res, next) => {
       }
   
       // Patch request avec token et gestion de l'erreur
-      fetch(`http://${process.env.API_URL}:${process.env.PORT}/users/${id}`, {
+      fetch(`http://${process.env.API_URL}/users/${id}`, {
         method: "PATCH",
         headers: {
           'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
@@ -132,7 +132,7 @@ exports.deleteUser = async (req, res, next) => {
         };
 
         // Delete request avec token et gestion de l'erreur
-        fetch(`http://${process.env.API_URL}:${process.env.PORT}/users/${userId}`, {
+        fetch(`http://${process.env.API_URL}/users/${userId}`, {
           method: "DELETE",
           headers: {
             'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
@@ -210,7 +210,7 @@ exports.updateCatwayById = async (req, res, next) => {
     }
 
     // Patch request avec token et gestion de l'erreur
-    fetch(`http://${process.env.API_URL}:${process.env.PORT}/catways/${id}`, {
+    fetch(`http://${process.env.API_URL}/catways/${id}`, {
       method: "PATCH",
       headers: {
         'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
@@ -256,7 +256,7 @@ exports.deleteCatway = async (req, res, next) => {
       };
 
       // Delete request avec token et gestion de l'erreur
-      fetch(`http://${process.env.API_URL}:${process.env.PORT}/catways/${id}`, {
+      fetch(`http://${process.env.API_URL}catways/${id}`, {
         method: "DELETE",
         headers: {
           'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
@@ -316,7 +316,7 @@ exports.deleteCatway = async (req, res, next) => {
         body: urlencoded
       };
 
-      await fetch(`http://${process.env.API_URL}:${process.env.PORT}/catways/${catway._id}/reservations`, 
+      await fetch(`http://${process.env.API_URL}/catways/${catway._id}/reservations`, 
         requestOptions)
         .then(response => {
           if (response.ok) {
@@ -381,7 +381,7 @@ exports.deleteBooking = async (req, res, next) => {
       };
 
       // Delete request avec token et gestion de l'erreur
-      fetch(`http://${process.env.API_URL}:${process.env.PORT}/catways/${catway._id}/reservations/${id}`, {
+      fetch(`http://${process.env.API_URL}/catways/${catway._id}/reservations/${id}`, {
         method: "DELETE",
         headers: {
           'authorization': `Bearer ${token}`, // Inclusion du tekon dans le header
